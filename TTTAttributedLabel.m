@@ -322,17 +322,21 @@ static inline NSAttributedString * NSAttributedStringByScalingFontSize(NSAttribu
 
 #pragma mark -
 - (void)temporarilyHighlightSubstringWithRange:(NSRange)range {
-
-    NSMutableAttributedString *mutableAttributedString = [self.attributedText mutableCopy];
-    [mutableAttributedString addAttribute:(NSString *)kTTTTemporaryAttributesAttributeName value:(id)[mutableAttributedString attributesAtIndex:range.location effectiveRange:nil] range:range];
-    [mutableAttributedString removeAttribute:(NSString *)kCTForegroundColorAttributeName range:range];
-    
-    [mutableAttributedString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[self.highlightedTextColor CGColor] range:range];
-    self.attributedText = mutableAttributedString;
-	
-    [mutableAttributedString release];
-    
-    [self setNeedsDisplay];
+    if (range.length > 0) {
+        // Make sure that location + length of the range <= string length
+        if (range.location + range.length <= self.attributedText.length ) {      
+            NSMutableAttributedString *mutableAttributedString = [self.attributedText mutableCopy];
+            [mutableAttributedString addAttribute:(NSString *)kTTTTemporaryAttributesAttributeName value:(id)[mutableAttributedString attributesAtIndex:range.location effectiveRange:nil] range:range];
+            [mutableAttributedString removeAttribute:(NSString *)kCTForegroundColorAttributeName range:range];
+            
+            [mutableAttributedString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[self.highlightedTextColor CGColor] range:range];
+            self.attributedText = mutableAttributedString;
+            
+            [mutableAttributedString release];
+            
+            [self setNeedsDisplay];
+        }
+    }
 }
 	
 - (void)resetTemporarilyHighlightedSubstringWithRange:(NSRange)range {
