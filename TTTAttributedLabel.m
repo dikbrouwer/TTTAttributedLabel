@@ -836,6 +836,8 @@ static inline NSAttributedString * NSAttributedStringByScalingFontSize(NSAttribu
                 return;
             }
             break;
+        default:
+            break;
     }
     
     // Fallback to `attributedLabel:didSelectLinkWithTextCheckingResult:` if no other delegate method matched.
