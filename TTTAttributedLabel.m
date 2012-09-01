@@ -194,6 +194,9 @@ static inline NSAttributedString * NSAttributedStringByScalingFontSize(NSAttribu
     self.dataDetectorTypes = UIDataDetectorTypeNone;
     self.links = [NSArray array];
     
+    // Set defaults
+    self.highlightedTextColor = [UIColor blackColor];
+    
     NSMutableDictionary *mutableLinkAttributes = [NSMutableDictionary dictionary];
     [mutableLinkAttributes setValue:(id)[[UIColor blueColor] CGColor] forKey:(NSString*)kCTForegroundColorAttributeName];
     [mutableLinkAttributes setValue:[NSNumber numberWithBool:YES] forKey:(NSString *)kCTUnderlineStyleAttributeName];
@@ -211,7 +214,7 @@ static inline NSAttributedString * NSAttributedStringByScalingFontSize(NSAttribu
      addObserver:self
      selector:@selector(gestureDidMove)
      name:kCommentedLabelDidMove
-     object:nil ] ;
+     object:nil];
 }
 
 - (void)dealloc {
@@ -620,7 +623,7 @@ static inline NSAttributedString * NSAttributedStringByScalingFontSize(NSAttribu
     [super setText:[self.attributedText string]];
 }
 
-- (void)setText:(id)text afterInheritingLabelAttributesAndConfiguringWithBlock:(NSMutableAttributedString *(^)(NSMutableAttributedString *mutableAttributedString))block {    
+- (void)setText:(id)text afterInheritingLabelAttributesAndConfiguringWithBlock:(NSMutableAttributedString *(^)(NSMutableAttributedString *mutableAttributedString))block {
     NSMutableAttributedString *mutableAttributedString = nil;
     if ([text isKindOfClass:[NSString class]]) {
         mutableAttributedString = [[[NSMutableAttributedString alloc] initWithString:text attributes:NSAttributedStringAttributesFromLabel(self)] autorelease];
